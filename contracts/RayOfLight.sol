@@ -54,7 +54,10 @@ contract RayOfLight is ERC721URIStorage {
         require(isPurchasable(tokenId) == true, "token is not purchasable");
         require(msg.value >= getCurrentPriceWithCommission(tokenId), "not enough value");
         address tokenSeller = ownerOf(tokenId);
-        console.log("here");
+        (bool sellerPaymentSuccess, ) = payable(tokenSeller).call{
+            value: getCurrentPrice(tokenId)
+        }("");
+        require(sellerPaymentSuccess, "payment failed");
         (bool success, ) = payable(commissions).call{
             value: (getCurrentPrice(tokenId) * 5) / 100
         }("");
@@ -72,7 +75,7 @@ contract RayOfLight is ERC721URIStorage {
     
     /// Gets current price of a token. This is what the owner gets when token is sold.
     function getCurrentPrice(uint256 tokenId) public view returns (uint256) {
-        require(_exists(tokenId), "non-existent token");
+        // require(_exists(tokenId), "non-existent token");
         require(_prices[tokenId] != 0, "price is zero");
         return _prices[tokenId];
     }
@@ -82,7 +85,7 @@ contract RayOfLight is ERC721URIStorage {
         require(_exists(tokenId), "non-existent token");
         uint256 price = _prices[tokenId];
         
-        return price;
+        return price + price * 5 / 100;
     }
 
     /// Puts a token on sale. Can only be called when price is already set.
