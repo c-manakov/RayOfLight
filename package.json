@@ -4,13 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy-mumbai": "npx hardhat run scripts/deploy.ts --network mumbai",
+    "deploy-rinkeby": "npx hardhat run scripts/deploy.ts --network rinkeby",
+    "run-mumbai": "npx hardhat run scripts/onChainTest.ts --network mumbai"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@openzeppelin/contracts": "^4.6.0",
     "hardhat": "^2.9.5",
+    "hardhat-deploy": "^0.11.10",
     "solc": "^0.8.14-fixed",
     "solidity-docgen": "^0.6.0-beta.10"
   },

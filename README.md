@@ -44,3 +44,22 @@ npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
 # Performance optimizations
 
 For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
+
+# Running on-chain test step-by-step
+
+1. Pull the project and run `npm install`
+2. Download and set up [Metamask](https://metamask.io/)  
+3. Add Mumbai testnet to Metamask settings with following parameters:
+```
+Network Name: Mumbai Testnet
+New RPC URL: https://matic-mumbai.chainstacklabs.com
+Chain ID: 80001
+Currency Symbol: M
+Block Explorer URL: https://mumbai.polygonscan.com/
+```
+4. Create 3 accounts for Mumbai Testnet in your Metamask.
+5. Top-up all of them using a [Faucet](https://faucet.polygon.technology/) 
+6. Export private keys using `Account Details` and put them into `MUMBAI_ACCOUNTS` in `hardhat.config.ts`
+7. Run `npm run deploy-mumbai`. Copy the address from `Contract deployed to:` and paste it `CONTRACT_ADDRESS` in `scripts/onChainTest.ts`
+8. Run `npm run run-mumbai`. The script logs everything going on and you can check balances change in Metamask.
+

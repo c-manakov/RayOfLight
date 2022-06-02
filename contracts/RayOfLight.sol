@@ -5,8 +5,6 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-// import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
-
 contract RayOfLight is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _height;
@@ -62,7 +60,7 @@ contract RayOfLight is ERC721URIStorage {
             value: (getCurrentPrice(tokenId) * 5) / 100
         }("");
         require(success, "comission failed");
-        safeTransferFrom(tokenSeller, msg.sender, tokenId);
+        _safeTransfer(tokenSeller, msg.sender, tokenId, "");
     }
 
     /// Sets price of a token. The caller has to be the owner.

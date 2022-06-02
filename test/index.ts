@@ -12,7 +12,7 @@ const getTokenId = async (result: ContractTransaction) => {
 
 const provider = new MockProvider({
   ganacheOptions: {
-    accounts: [{ balance: 1000000000000000000000000, secretKey: '0x7f109a9e3b0d8ecfba9cc23a3614433ce0fa7ddcc80f2a8f10b222179a5a80d6' }, { balance: 1000000000000000000000, secretKey: '0x6ec1f2e7d126a74a1d2ff9e1c5d90b92378c725e506651ff8bb8616a5c724628' }, { balance: 1000000000000000000000000, secretKey: '0x6ec1f2e7d126a74a1d2ff9e1c5d90b92378c725e506651ff8bb8616a5c724628' }]
+    accounts: [{ balance: 1000000000000000000000000, secretKey: '0x7f109a9e3b0d8ecfba9cc23a3614433ce0fa7ddcc80f2a8f10b222179a5a80d6' }, { balance: 1000000000000000000000, secretKey: '0x8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f' }, { balance: 1000000000000000000000000, secretKey: '0x6ec1f2e7d126a74a1d2ff9e1c5d90b92378c725e506651ff8bb8616a5c724628' }]
   }
 });
 
