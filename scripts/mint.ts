@@ -11,11 +11,12 @@ async function main() {
   // We get the contract to deploy
   const [minter] = await ethers.getSigners();
 
-  const rayOfLight = await ethers.getContractAt("RayOfLight", '0xa71fa4Af2A3273609d79883ADb31b872520a1983')
+  const rayOfLight = await ethers.getContractAt("RayOfLight", '0x174446CE452CE759318fDC2841Fe6DECc25D2a71')
 
-  await rayOfLight.connect(minter).mintHigherRay(minter.address, { gasLimit: 100000, value: 1000 })
+  const result = await rayOfLight.connect(minter).mintHigherRay(minter.address, { gasLimit: 1000000, value: 1000 })
+  console.log(result)
 
-  console.log("Greeter deployed to:", rayOfLight.address);
+  console.log(await minter.getBalance())
 }
 
 // We recommend this pattern to be able to use async/await everywhere

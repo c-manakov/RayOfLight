@@ -3,6 +3,7 @@ import { ethers } from "hardhat";
 import { deployContract, MockProvider, solidity } from 'ethereum-waffle';
 import { RayOfLight } from "../typechain";
 import { BigNumber, ContractReceipt, ContractTransaction } from "ethers";
+import axios from 'axios'
 
 const getTokenId = async (result: ContractTransaction) => {
   const finishedTransaction: ContractReceipt = await result.wait()
@@ -26,26 +27,32 @@ describe("RayOfLight", function () {
   });
 
   it("Should deploy ray of light and mint the first ray", async function () {
-    const result = await rayOfLight.mintHigherRay(minterWallet.address, { gasLimit: 100000, value: 1000 })
+    const result = await rayOfLight.mintHigherRay(minterWallet.address, { gasLimit: 1000000, value: 1000 })
     const tokenId = await getTokenId(result)
     console.log(tokenId)
     expect(tokenId).to.equal(BigNumber.from("1"))
-    const result2 = await rayOfLight.mintHigherRay(minterWallet.address, { gasLimit: 100000, value: 1000 })
+    const result2 = await rayOfLight.mintHigherRay(minterWallet.address, { gasLimit: 1000000, value: 1000 })
     const tokenId2 = await getTokenId(result2)
     expect(tokenId2).to.equal(BigNumber.from("2"))
   });
 
   it("Should purchase a minted ray", async function () {
-    const result = await rayOfLight.mintHigherRay(minterWallet.address, { gasLimit: 100000, value: 1000 })
+    const result = await rayOfLight.mintHigherRay(minterWallet.address, { gasLimit: 1000000, value: 1000 })
     const tokenId = await getTokenId(result)
+    const tokenURI = await rayOfLight.tokenURI(tokenId)
+    
+    const metadata = await axios.get(tokenURI)
+    expect(metadata.headers['content-type']).to.equal('application/json')
+    expect(metadata.data).to.haveOwnProperty('description')
+    console.log(metadata)
 
-    await (await rayOfLight.connect(minterWallet).setCurrentPrice(tokenId, 2000, { gasLimit: 100000 })).wait()
-    await (await rayOfLight.connect(minterWallet).makePurchasable(tokenId, { gasLimit: 100000 })).wait()
+    await (await rayOfLight.connect(minterWallet).setCurrentPrice(tokenId, 2000, { gasLimit: 1000000 })).wait()
+    await (await rayOfLight.connect(minterWallet).makePurchasable(tokenId, { gasLimit: 1000000 })).wait()
 
     const creatorBalanceBeforeCommission = await wallet.getBalance()
     const priceWithCommission = await rayOfLight.connect(minterWallet).getCurrentPriceWithCommission(tokenId)
     const minterBalanceBeforePurchase = await minterWallet.getBalance()
-    await (await rayOfLight.connect(buyerWallet).purchase(tokenId, { gasLimit: 100000, value: priceWithCommission})).wait()
+    await (await rayOfLight.connect(buyerWallet).purchase(tokenId, { gasLimit: 1000000, value: priceWithCommission})).wait()
     const minterBalanceAfterPurchase = await minterWallet.getBalance()
     
     const creatorBalanceAfterCommission = await wallet.getBalance()

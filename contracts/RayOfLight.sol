@@ -39,7 +39,7 @@ contract RayOfLight is ERC721URIStorage {
         uint256 tokenId = _height.current();
         _safeMint(to, tokenId); 
         _height.increment();
-        string memory uri = "https://modelAddress.com";
+        string memory uri = "https://ray-of-light-test-storj.s3.filebase.com/1.json";
         _setTokenURI(tokenId, uri);
         return tokenId;
     }
